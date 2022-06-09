@@ -1,3 +1,4 @@
+from tracemalloc import stop
 import project1 as p1
 import utils
 import numpy as np
@@ -17,7 +18,11 @@ train_texts, train_labels = zip(*((sample['text'], sample['sentiment']) for samp
 val_texts, val_labels = zip(*((sample['text'], sample['sentiment']) for sample in val_data))
 test_texts, test_labels = zip(*((sample['text'], sample['sentiment']) for sample in test_data))
 
-dictionary = p1.bag_of_words(train_texts)
+# load stopwords.txt
+stopwords = utils.load_txt('stopwords.txt')
+print(stopwords[:5])
+
+dictionary = p1.bag_of_words(train_texts, stopwords)
 
 train_bow_features = p1.extract_bow_feature_vectors(train_texts, dictionary)
 val_bow_features = p1.extract_bow_feature_vectors(val_texts, dictionary)
@@ -126,11 +131,11 @@ print("{:50} {:.4f}".format("Test accuracy for Pegasos:", test_accs))
 # accurate algorithm with the optimal choice of hyperparameters.
 #-------------------------------------------------------------------------------
 
-best_theta = theta # Your code here
-wordlist   = [word for (idx, word) in sorted(zip(dictionary.values(), dictionary.keys()))]
-sorted_word_features = utils.most_explanatory_word(best_theta, wordlist)
-print("Most Explanatory Word Features")
-print(sorted_word_features[:10])
+# best_theta = theta # Your code here
+# wordlist   = [word for (idx, word) in sorted(zip(dictionary.values(), dictionary.keys()))]
+# sorted_word_features = utils.most_explanatory_word(best_theta, wordlist)
+# print("Most Explanatory Word Features")
+# print(sorted_word_features[:10])
 
 
 
